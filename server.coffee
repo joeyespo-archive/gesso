@@ -1,9 +1,11 @@
+path = require 'path'
 express = require 'express'
 mustache = require 'mustache'
 
 
 # The web application
-app = express.createServer(express.static(__dirname + '/static'))
+app = express.createServer express.static(__dirname + '/static')
+app.set 'views', path.join(__dirname, 'views')
 app.set 'view options',
   layout: false
 app.register '.html',
