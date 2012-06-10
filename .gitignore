@@ -1,0 +1,8 @@
+# Environment-specific files such as configuration, logs, and setup
+node_modules/
+npm-debug.log
+
+# Misc and OS files
+Desktop.ini             # Directory atttributes in Windows.
+Thumbs.db               # Picture thumbnail cache in Windows 98.
+.DS_Store               # Directory attributes in Mac OS X.

@@ -1,0 +1,21 @@
+{
+  "name": "gesso",
+  "author": {
+    "name": "Joe Esposito",
+    "email": "joeyespo@gmail.com"
+  },
+  "description": "",
+  "keywords": [
+    "bundle",
+    "canvas",
+    "gesso"
+  ],
+  "version": "0.0.1",
+  "main": "./gesso",
+  "dependencies": {
+    "requirejs": "",
+    "coffee-script": "",
+    "crossroads": "",
+    "mustache": ""
+  }
+}
