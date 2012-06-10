@@ -16,4 +16,4 @@ exports.server = http.createServer (request, response) ->
 
 
 render_template = (template_file, model) ->
-  mustache.to_html fs.readFileSync('templates/index.html', 'ascii'), model
+  mustache.to_html fs.readFileSync(template_file, 'ascii'), model
