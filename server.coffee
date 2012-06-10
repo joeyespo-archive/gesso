@@ -1,19 +1,17 @@
 fs = require 'fs'
-url = require 'url'
-http = require 'http'
+express = require 'express'
 mustache = require 'mustache'
-crossroads = require 'crossroads'
 
 
-crossroads.addRoute '/', ->
-  render_template 'templates/index.html', { width: 800, height: 600, entry: 'main.js' }
+# The web application
+exports.app = app = express.createServer()
 
 
-exports.server = http.createServer (request, response) ->
-  #response.writeHead 200, {'Content-Type': 'text/html; charset=utf-8'}
-  #response.end render_template('templates/index.html', { width: 800, height: 600, entry: 'main.js' })
-  console.log(crossroads.parse url.parse(request.url).pathname)
+# Views
+app.get '/', (req, res) ->
+  res.send render_template 'templates/index.html', { width: 800, height: 600, entry: 'main.js' }
 
 
+# Helpers
 render_template = (template_file, model) ->
   mustache.to_html fs.readFileSync(template_file, 'ascii'), model

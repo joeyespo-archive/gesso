@@ -13,9 +13,9 @@
   "version": "0.0.1",
   "main": "./gesso",
   "dependencies": {
-    "requirejs": "",
     "coffee-script": "",
-    "crossroads": "",
+    "requirejs": "",
+    "express": "",
     "mustache": ""
   }
 }
