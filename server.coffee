@@ -3,7 +3,7 @@ mustache = require 'mustache'
 
 
 # The web application
-app = express.createServer()
+app = express.createServer(express.static(__dirname + '/static'))
 app.set 'view options',
   layout: false
 app.register '.html',
