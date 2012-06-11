@@ -6,6 +6,7 @@ mustache = require 'mustache'
 
 # Config
 entryFile = 'main.js'
+requirejs = path.join __dirname, 'node_modules', 'requirejs', 'require.js'
 
 
 # The web application
@@ -33,6 +34,12 @@ app.get '/workspace/*', (req, res) ->
   contents = sendFile path
   res.contentType path
   res.send contents
+
+
+# Overrides
+app.get '/static/require.js', (req, res) ->
+  res.contentType requirejs
+  res.send sendFile requirejs
 
 
 # Helpers
