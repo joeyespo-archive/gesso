@@ -5,12 +5,12 @@ mustache = require 'mustache'
 
 
 # Config
-entryFile = 'main.js'
 requirejs = path.join __dirname, 'node_modules', 'requirejs', 'require.js'
 
 
 # The web application
-app = express.createServer express.static(__dirname + '/static')
+app = express.createServer()
+app.use '/static', express.static(__dirname + '/static')
 app.set 'views', path.join(__dirname, 'views')
 app.set 'view options',
   layout: false
@@ -24,7 +24,7 @@ exports.app = app
 # Views
 app.get '/', (req, res) ->
   res.render 'index.html',
-    entry: entryFile
+    entry: 'main.js'
     width: 800
     height: 600
 
