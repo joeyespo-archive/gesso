@@ -29,7 +29,10 @@ app.get '/', (req, res) ->
 
 
 app.get '/workspace/*', (req, res) ->
-  res.send sendFile req.params[0]
+  path = req.params[0]
+  contents = sendFile path
+  res.contentType path
+  res.send contents
 
 
 # Helpers
