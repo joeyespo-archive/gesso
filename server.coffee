@@ -2,11 +2,7 @@ fs = require 'fs'
 path = require 'path'
 express = require 'express'
 mustache = require 'mustache'
-requirejs = require 'requirejs'
-
-
-# Config
-requireLib = path.join __dirname, 'node_modules', 'requirejs', 'require'
+uglyfyJS = require 'uglify-js'
 
 
 # The web application
@@ -32,7 +28,7 @@ app.get '/', (req, res) ->
 
 app.get '/compiled.js', (req, res) ->
   console.log 'Compiling...'
-  build 'main', 'compiled.js'
+  build 'main.js', 'compiled.js'
   console.log 'Done!'
   res.contentType 'compiled.js'
   res.send sendFile 'compiled.js'
@@ -43,11 +39,11 @@ sendFile = (path) ->
   fs.readFileSync path, 'utf8'
 
 
-build = (source, destPath) ->
-  requirejs.optimize
-    baseUrl: '.'
-    paths:
-      'requireLib': requireLib
-    include: 'requireLib'
-    name: source
-    out: destPath
+build = (sourcePath, destPath) ->
+  src = fs.readFileSync sourcePath, 'utf8'
+  # TODO: combine commonJS files
+  ast = uglyfyJS.parser.parse src
+  ast = uglyfyJS.uglify.ast_mangle ast
+  ast = uglyfyJS.uglify.ast_squeeze ast
+  out = uglyfyJS.uglify.gen_code ast
+  fs.writeFileSync destPath, out, 'utf8'

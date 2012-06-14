@@ -14,8 +14,8 @@
   "main": "./gesso",
   "dependencies": {
     "coffee-script": "",
-    "requirejs": "",
     "express": "",
-    "mustache": ""
+    "mustache": "",
+    "uglify-js": ""
   }
 }
