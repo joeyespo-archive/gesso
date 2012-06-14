@@ -2,10 +2,11 @@ fs = require 'fs'
 path = require 'path'
 express = require 'express'
 mustache = require 'mustache'
+requirejs = require 'requirejs'
 
 
 # Config
-requirejs = path.join __dirname, 'node_modules', 'requirejs', 'require.js'
+requireLib = path.join __dirname, 'node_modules', 'requirejs', 'require'
 
 
 # The web application
@@ -24,22 +25,23 @@ exports.app = app
 # Views
 app.get '/', (req, res) ->
   res.render 'index.html',
-    entry: 'main.js'
+    compiled: 'compiled.js'
     width: 800
     height: 600
 
 
-app.get '/workspace/*', (req, res) ->
-  path = req.params[0]
-  contents = sendFile path
-  res.contentType path
-  res.send contents
-
-
-# Overrides
-app.get '/static/require.js', (req, res) ->
-  res.contentType requirejs
-  res.send sendFile requirejs
+app.get '/compiled.js', (req, res) ->
+  console.log 'Compiling...'
+  requirejs.optimize
+    baseUrl: '.'
+    paths:
+      'requireLib': requireLib
+    include: 'requireLib'
+    name: 'main'
+    out: 'compiled.js'
+  console.log 'Done!'
+  res.contentType 'compiled.js'
+  res.send sendFile 'compiled.js'
 
 
 # Helpers
