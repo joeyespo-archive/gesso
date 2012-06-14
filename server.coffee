@@ -32,13 +32,7 @@ app.get '/', (req, res) ->
 
 app.get '/compiled.js', (req, res) ->
   console.log 'Compiling...'
-  requirejs.optimize
-    baseUrl: '.'
-    paths:
-      'requireLib': requireLib
-    include: 'requireLib'
-    name: 'main'
-    out: 'compiled.js'
+  build 'main', 'compiled.js'
   console.log 'Done!'
   res.contentType 'compiled.js'
   res.send sendFile 'compiled.js'
@@ -47,3 +41,13 @@ app.get '/compiled.js', (req, res) ->
 # Helpers
 sendFile = (path) ->
   fs.readFileSync path, 'utf8'
+
+
+build = (source, destPath) ->
+  requirejs.optimize
+    baseUrl: '.'
+    paths:
+      'requireLib': requireLib
+    include: 'requireLib'
+    name: source
+    out: destPath
