@@ -2,7 +2,7 @@ fs = require 'fs'
 path = require 'path'
 express = require 'express'
 mustache = require 'mustache'
-uglyfyJS = require 'uglify-js'
+stitch = require 'stitch'
 
 
 # Config
@@ -37,23 +37,19 @@ app.get '/', (req, res) ->
 
 
 app.get buildUrl, (req, res) ->
+  fs.unlinkSync buildPath
   console.log 'Building ' + buildFile + '...'
-  build 'main.js', buildPath
-  console.log 'Done!'
-  res.contentType buildPath
-  res.send sendFile buildPath
+  p = stitch.createPackage
+    paths: [projectPath]
+  p.compile (err, source) ->
+    throw err if err
+    source += "require('main')\n"
+    fs.writeFileSync buildPath, source, 'utf8'
+    console.log 'Done!'
+    res.contentType buildPath
+    res.send sendFile buildPath
 
 
 # Helpers
 sendFile = (path) ->
   fs.readFileSync path, 'utf8'
-
-
-build = (sourcePath, destPath) ->
-  src = fs.readFileSync sourcePath, 'utf8'
-  # TODO: combine commonJS files
-  ast = uglyfyJS.parser.parse src
-  ast = uglyfyJS.uglify.ast_mangle ast
-  ast = uglyfyJS.uglify.ast_squeeze ast
-  out = uglyfyJS.uglify.gen_code ast
-  fs.writeFileSync destPath, out, 'utf8'
