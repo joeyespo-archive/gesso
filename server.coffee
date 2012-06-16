@@ -6,7 +6,7 @@ uglyfyJS = require 'uglify-js'
 
 
 # Config
-projectPath = path.resolve '.'
+projectPath = process.cwd()
 projectName = path.basename projectPath.toLowerCase()
 buildDir = 'build'
 buildFile = projectName
