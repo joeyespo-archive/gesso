@@ -5,6 +5,16 @@ mustache = require 'mustache'
 uglyfyJS = require 'uglify-js'
 
 
+# Config
+projectPath = path.resolve '.'
+projectName = path.basename projectPath.toLowerCase()
+buildDir = 'build'
+buildFile = projectName
+buildFile += '.js' if projectName.substr(projectName.length - 3) != '.js'
+buildPath = path.join buildDir, buildFile
+buildUrl = '/build/' + buildFile
+
+
 # The web application
 app = express.createServer()
 app.use '/static', express.static(__dirname + '/static')
@@ -21,17 +31,17 @@ exports.app = app
 # Views
 app.get '/', (req, res) ->
   res.render 'index.html',
-    compiled: 'compiled.js'
+    script: buildPath
     width: 800
     height: 600
 
 
-app.get '/compiled.js', (req, res) ->
-  console.log 'Compiling...'
-  build 'main.js', 'compiled.js'
+app.get buildUrl, (req, res) ->
+  console.log 'Building ' + buildFile + '...'
+  build 'main.js', buildPath
   console.log 'Done!'
-  res.contentType 'compiled.js'
-  res.send sendFile 'compiled.js'
+  res.contentType buildPath
+  res.send sendFile buildPath
 
 
 # Helpers
