@@ -31,7 +31,7 @@ exports.app = app
 # Views
 app.get '/', (req, res) ->
   res.render 'index.html',
-    script: buildPath
+    script: buildUrl
     width: 800
     height: 600
 
