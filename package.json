@@ -16,6 +16,7 @@
     "coffee-script": "",
     "express": "",
     "mustache": "",
-    "stitch": ""
+    "stitch": "",
+    "detective": ""
   }
 }
