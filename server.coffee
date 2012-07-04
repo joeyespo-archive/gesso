@@ -9,6 +9,7 @@ stitch = require 'stitch'
 # Config
 projectPath = process.cwd()
 projectName = path.basename projectPath.toLowerCase()
+builtinsPath = path.join(__dirname, 'static', 'gesso_modules')
 buildDir = 'build'
 buildFile = projectName
 buildFile += '.js' if projectName.substr(projectName.length - 3) != '.js'
@@ -42,6 +43,9 @@ app.get '/', (req, res) ->
 app.get buildUrl, (req, res) ->
   console.log 'Building ' + buildFile + '...'
   files = walkModules entryModules, ''
+  # TODO: Remove this once stitch is working
+  files.push(projectPath)
+  files.push(builtinsPath)
   p = stitch.createPackage
     paths: files
   p.compile (err, source) ->
@@ -59,32 +63,42 @@ sendFile = (file) ->
 
 
 walkModules = (names, currentFile) ->
-  names.map (name) ->
+  fileLists = names.map (name) ->
     walkModule name, currentFile
+  fileLists.reduce concat, []
 
 
 walkModule = (name, currentFile) ->
   file = resolve name, currentFile
-  if !path.existsSync file
+  # Check for existing module
+  if not path.existsSync file
     console.log "\nWarning: No such module '" + file + "'\n      at " + currentFile
     return []
   contents = fs.readFileSync file, 'utf8'
   requires = detective contents
   fileLists = requires.map (name) ->
     walkModule name, file
-  fileLists.reduce concat, []
+  fileLists.reduce concat, [file]
 
 
 resolve = (name, currentFile) ->
   dir = if currentFile then path.dirname(currentFile) else projectPath
-  file = path.join dir, name
+  norm = path.normalize name
+  file = path.join dir, norm
+  # Check whether the file is within the project directory
   if file.substring(0, projectPath.length) != projectPath
     console.log '\nWarning: A required file is located outside of the project: "' + name + '"\n      at ' + currentFile
   if not path.extname(file)
+    # Check for existing file with the installed extension handlers
     for ext in extensions
       if path.existsSync file + ext
         return file + ext
-  return name
+    # No local file found, check for builtin module
+    isModuleName = path.basename(norm) == norm
+    if isModuleName
+      builtin = path.join(builtinsPath, norm) + '.js'
+      return builtin if path.existsSync builtin
+  return norm
 
 
 concat = (a, b) ->
