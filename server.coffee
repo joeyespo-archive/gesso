@@ -46,8 +46,12 @@ app.get buildUrl, (req, res) ->
   # TODO: Remove this once stitch is working
   files.push(projectPath)
   files.push(builtinsPath)
+  # Create a package based on the require file hierarchy
   p = stitch.createPackage
     paths: files
+  # Delete the original build file since StitchJS uses all files in a directory
+  fs.unlinkSync buildPath if path.existsSync buildPath
+  # Compile all source files into the output file
   p.compile (err, source) ->
     throw err if err
     source += "require('main')\n"
