@@ -1,0 +1,18 @@
+Hello
+-----
+
+Paints a welcome message on your canvas.
+
+
+Run the Demo
+------------
+
+Install using [Node](http://nodejs.org):
+
+    npm install -g gesso
+
+Then start watching this directory:
+
+    gesso
+
+When you see `Running on localhost:8080`, [visit the address](http://localhost:8080) for help with getting started.
