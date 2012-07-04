@@ -51,6 +51,8 @@ app.get buildUrl, (req, res) ->
     paths: files
   # Delete the original build file since StitchJS uses all files in a directory
   fs.unlinkSync buildPath if path.existsSync buildPath
+  # Create the build directory, if it does not yet exist
+  fs.mkdir buildDir if not path.existsSync buildDir
   # Compile all source files into the output file
   p.compile (err, source) ->
     throw err if err
