@@ -1,19 +1,17 @@
-Gesso - Primer for your &lt;canvas&gt;
-======================================
+Gesso
+=====
 
-Because inspiration shouldn't be wasted on boilerplate.
+Gesso is a command-line utility for a [canvas](http://en.wikipedia.org/wiki/Canvas_element) project that:
 
-Gesso is a portable command-line utility that:
-
-- Watches a directory tree, **collecting** assets and **compiling** modules on-the-fly
-- Serves a website on `localhost` so you can see your work **without boilerplate**
+- Watches a directory tree, **collecting** assets and **compiling** your source on-the-fly
+- Serves a website on `localhost` so you can see your progress **without boilerplate**
 - Allows you to **publish a single file** when you are finished
 
 Any code changes you make are reflected immediately, with no page refresh required.
 
 
-Let me try!
------------
+Getting Started
+---------------
 
 Install using [Node](http://nodejs.org):
 
