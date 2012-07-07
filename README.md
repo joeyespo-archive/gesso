@@ -3,10 +3,6 @@ Gesso - Primer for your &lt;canvas&gt;
 
 Because inspiration shouldn't be wasted on boilerplate.
 
-
-Wait, what?
------------
-
 Gesso is a portable command-line utility that:
 
 - Watches a directory tree, **collecting** assets and **compiling** modules on-the-fly
