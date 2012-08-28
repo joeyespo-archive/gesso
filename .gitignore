@@ -1,6 +1,7 @@
 # Environment-specific files such as configuration, logs, and setup
 node_modules/
 npm-debug.log
+local_config.coffee
 
 # Misc and OS files
 Desktop.ini             # Directory atttributes in Windows.
